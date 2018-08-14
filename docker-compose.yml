@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  docker-funkwhale-frontend:
+
+    image: nginx:1.15.2-alpine
+    container_name: docker-funkwhale-frontend
+    restart: always
+    privileged: true
+    #network_mode: host
+    ports:
+      - 8881:80
+
+    volumes:
+      - ./html:/var/www/html
+      - ./custom:/srv/funkwhale/custom
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./funkwhale_proxy.conf:/etc/nginx/funkwhale_proxy.conf
+
+     # Replace these paths with the correct paths to your Funkwhale /mediaroot /django-static and /music files
+      - /opt/docker-funkwhale/data/mediaroot:/srv/funkwhale/data/media
+      - /opt/docker-funkwhale/data/django-static:/srv/funkwhale/data/static
+      - /opt/docker-funkwhale/mediaroot:/srv/funkwhale/data/music:ro
